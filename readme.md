@@ -10,7 +10,7 @@ Beyond simply running the system, this repository also tells a story about how t
 
 This is more than just installation instructions. It's an invitation to explore, experiment, and even improve the system for your own needs. Plaese, enjoy.
 
-* [Download Micro Journal Linux Image](https://github.com/unkyulee/micro-journal/releases)
+* [Download Micro Journal Linux Image](https://github.com/unkyulee/micro-journal-linux/releases)
 
 ---
 
