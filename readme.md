@@ -611,7 +611,7 @@ This script automatically creates a new WordGrinder document with a **timestampe
 **Create the script:**
 
 ```bash
-nano ~/microjournal/newfile.sh
+nano ~/microjournal/new_word.sh
 ```
 
 **Add:**
@@ -629,13 +629,52 @@ wordgrinder "~/microjournal/documents/$filename"
 **Make it executable:**
 
 ```bash
-chmod +x ~/microjournal/newfile.sh
+chmod +x ~/microjournal/new_word.sh
 ```
 
 Now you can simply run:
 
 ```
-~/microjournal/newfile.sh
+~/microjournal/new_word.sh
+```
+
+…and instantly start writing.
+
+---
+
+
+### Script: Create a New Text File
+
+This script automatically creates a new text file with a **timestamped filename** so your notes stay neatly organized.
+
+**Create the script:**
+
+```bash
+nano ~/microjournal/new_txt.sh
+```
+
+**Add:**
+
+```bash
+#!/bin/bash
+
+# Generate filename: 2025.11.16-1430.txt
+filename=$(date +"%Y.%m.%d-%H%M.txt")
+
+# Open WordGrinder with the new file inside /documents
+micro "~/microjournal/documents/$filename"
+```
+
+**Make it executable:**
+
+```bash
+chmod +x ~/microjournal/new_txt.sh
+```
+
+Now you can simply run:
+
+```
+~/microjournal/new_txt.sh
 ```
 
 …and instantly start writing.
