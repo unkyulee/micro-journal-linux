@@ -96,10 +96,7 @@ This approach is particularly useful for experimenting or troubleshooting. You c
 
 If your focus is purely on a **PC-based, distraction-free writing environment**, you might also want to check out [writerDeckOS](https://www.reddit.com/r/writerdeckOS/). It's a project specifically designed to create a focused writing workspace for PC users, with a minimal interface and optimized tools to help writers stay productive.
 
-Download the PC image from the release page, and use the ImageUSB tool to flash the image to USB drive.
-
-* [Download ImageUSB tool](./imageusb.zip)
-* [Download Micro Journal Linux Image](https://github.com/unkyulee/micro-journal-linux/releases)
+* [Run Micro Journal on a PC](./debian-live.md)
 
 
 ---
