@@ -663,7 +663,7 @@ nano ~/microjournal/new_txt.sh
 # Generate filename: 2025.11.16-1430.txt
 filename=$(date +"%Y.%m.%d-%H%M.txt")
 
-# Open WordGrinder with the new file inside /documents
+# Open Micro with the new file inside /documents
 micro "~/microjournal/documents/$filename"
 ```
 
