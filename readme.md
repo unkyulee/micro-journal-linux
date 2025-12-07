@@ -683,6 +683,44 @@ Now you can simply run:
 
 ---
 
+### Script: Create a New Markdown Text File
+
+This script automatically creates a new Markdown file with a **timestamped filename** so your notes stay neatly organized.
+
+**Create the script:**
+
+```bash
+nano ~/microjournal/new_md.sh
+```
+
+**Add:**
+
+```bash
+#!/bin/bash
+
+# Generate filename: 2025.11.16-1430.md
+filename=$(date +"%Y.%m.%d-%H%M.md")
+
+# Open Micro with the new file inside /documents
+micro "~/microjournal/documents/$filename"
+```
+
+**Make it executable:**
+
+```bash
+chmod +x ~/microjournal/new_md.sh
+```
+
+Now you can simply run:
+
+```
+~/microjournal/new_md.sh
+```
+
+…and instantly start writing.
+
+---
+
 ### Shutdown Script
 
 A simple script that cleanly powers off the device.
