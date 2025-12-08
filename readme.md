@@ -1,5 +1,7 @@
 # Micro Journal Linux Image
 
+<img src="./images/003.webp" width=500 />
+
 This repository contains all the setup instructions, scripts, and configuration guides for the [Micro Journal](https://github.com/unkyulee/micro-journal) Linux Image. This image is designed for [Micro Journal](https://github.com/unkyulee/micro-journal) revisions that run on a Raspberry Pi, providing a lightweight, portable, and fully functional system tailored for writing and file management.
 
 You have two main options to get started. The simplest and recommended approach is to use a prebuilt image. This allows you to flash the system onto a microSD card and boot immediately, with everything already configured. For those who prefer a deeper understanding or want to customize the system extensively, you can also set up everything manually. 
