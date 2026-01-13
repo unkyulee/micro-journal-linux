@@ -1,5 +1,9 @@
 # **Micro Journal PC Image Setup Guide**
 
+<img src="./images/001.webp" width=400 />
+
+<img src="./images/002.webp" width=400 />
+
 This guide explains how to install and run the **Micro Journal PC Edition** from a USB drive.
 It shares the same configuration as the Raspberry Pi version, but this document covers only the **PC-specific steps**.
 

@@ -1,5 +1,7 @@
 # Micro Journal Linux Image
 
+<img src="./images/003.webp" width=500 />
+
 This repository contains all the setup instructions, scripts, and configuration guides for the [Micro Journal](https://github.com/unkyulee/micro-journal) Linux Image. This image is designed for [Micro Journal](https://github.com/unkyulee/micro-journal) revisions that run on a Raspberry Pi, providing a lightweight, portable, and fully functional system tailored for writing and file management.
 
 You have two main options to get started. The simplest and recommended approach is to use a prebuilt image. This allows you to flash the system onto a microSD card and boot immediately, with everything already configured. For those who prefer a deeper understanding or want to customize the system extensively, you can also set up everything manually. 
@@ -685,7 +687,7 @@ nano ~/microjournal/new_txt.sh
 # Generate filename: 2025.11.16-1430.txt
 filename=$(date +"%Y.%m.%d-%H%M.txt")
 
-# Open WordGrinder with the new file inside /documents
+# Open Micro with the new file inside /documents
 micro "~/microjournal/documents/$filename"
 ```
 
@@ -699,6 +701,44 @@ Now you can simply run:
 
 ```
 ~/microjournal/new_txt.sh
+```
+
+…and instantly start writing.
+
+---
+
+### Script: Create a New Markdown Text File
+
+This script automatically creates a new Markdown file with a **timestamped filename** so your notes stay neatly organized.
+
+**Create the script:**
+
+```bash
+nano ~/microjournal/new_md.sh
+```
+
+**Add:**
+
+```bash
+#!/bin/bash
+
+# Generate filename: 2025.11.16-1430.md
+filename=$(date +"%Y.%m.%d-%H%M.md")
+
+# Open Micro with the new file inside /documents
+micro "~/microjournal/documents/$filename"
+```
+
+**Make it executable:**
+
+```bash
+chmod +x ~/microjournal/new_md.sh
+```
+
+Now you can simply run:
+
+```
+~/microjournal/new_md.sh
 ```
 
 …and instantly start writing.
