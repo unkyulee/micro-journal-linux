@@ -41,6 +41,7 @@ This is more than just installation instructions. It's an invitation to explore,
 * Install File Browser (Web-based File Explorer)
 * Console Font Size Adjuster
 * Raspi-Config Shortcut
+* Changing Color Scheme to amber
 
 ### Script Setup
 
@@ -424,7 +425,7 @@ Ranger is a lightweight, console-based file manager that provides a simple and e
    ```
    ext wg = wordgrinder "$@"
    ext sh = bash "$@"
-   ext txt = micro "$@"
+   ext txt = nano "$@"
    ```
 
    * `ext wg` associates `.wg` files with WordGrinder, the text editor used on Micro Journal.
@@ -602,6 +603,27 @@ sudo raspi-config
 ```bash
 chmod +x ~/microjournal/config.sh
 ```
+
+
+---
+
+#### Changing Color Scheme to amber
+
+ 
+```bash
+setterm -background black -foreground yellow -store
+```
+
+You can use one of those colors
+* black
+* red
+* green
+* yellow
+* blue
+* magenta
+* cyan
+* white
+
 
 
 ---
