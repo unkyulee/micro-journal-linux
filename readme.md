@@ -441,50 +441,28 @@ Ranger is a lightweight, console-based file manager that provides a simple and e
 
 ---
 
-### Install WordGrinder and Micro (Text Editor)
+### Install WordGrinder and nano (Text Editor)
 
-Micro Journal uses **WordGrinder** and **Micro** as text editors. WordGrinder is a minimalistic, distraction-free editor optimized for writing documents, while Micro is a modern, terminal-based text editor with syntax highlighting and optional word wrap.
+Micro Journal uses **WordGrinder** and **nano** as text editors. WordGrinder is a minimalistic editor optimized for writing documents, while nano is a terminal-based text editor with syntax highlighting and optional word wrap.
 
 ---
 
-1. Install the Editors
+Install the WordGrinder
 
 Open a terminal and run:
 
 ```bash
-sudo apt install wordgrinder micro
+sudo apt install wordgrinder
 ```
 
 This will install both editors along with any necessary dependencies.
 
 ---
 
-2. Configure Micro Editor
-
-To improve the writing experience in Micro, enable word wrap so long lines automatically wrap in the terminal window:
-
-* Edit Micro's settings file:
-
-```bash
-nano ~/.config/micro/settings.json
-```
-
-* Add or update the line:
-
-```json
-{
-  "softwrap": true
-}
-```
-
-* Save (`Ctrl + O`, `Enter`) and exit (`Ctrl + X`).
-
----
-
-**Micro Shortcuts**
+**nano Shortcuts**
 
 * **Save file:** `Ctrl + s`
-* **Exit editor:** `Ctrl + q`
+* **Exit editor:** `Ctrl + x`
 
 ---
 
@@ -560,7 +538,7 @@ This small helper script lets you quickly change the console font size (useful o
 **Create the script:**
 
 ```bash
-nano ~/microjournal/font.sh
+nano ~/microjournal/setting_font.sh
 ```
 
 **Add:**
@@ -575,7 +553,7 @@ This opens the Debian font configuration menu, where you can choose different co
 **Make it executable:**
 
 ```bash
-chmod +x ~/microjournal/font.sh
+chmod +x ~/microjournal/setting_font.sh
 ```
 
 ---
@@ -587,7 +565,7 @@ This script gives you quick access to **raspi-config**, while ensuring that **Ne
 **Create the script:**
 
 ```bash
-nano ~/microjournal/config.sh
+nano ~/microjournal/setting.sh
 ```
 
 **Add:**
@@ -603,28 +581,8 @@ sudo raspi-config
 **Make it executable:**
 
 ```bash
-chmod +x ~/microjournal/config.sh
+chmod +x ~/microjournal/setting.sh
 ```
-
-
----
-
-#### Changing Color Scheme to amber
-
- 
-```bash
-setterm -background black -foreground yellow -store
-```
-
-You can use one of those colors
-* black
-* red
-* green
-* yellow
-* blue
-* magenta
-* cyan
-* white
 
 
 
@@ -637,7 +595,7 @@ This script automatically creates a new WordGrinder document with a **timestampe
 **Create the script:**
 
 ```bash
-nano ~/microjournal/new_word.sh
+nano ~/microjournal/draft_word.sh
 ```
 
 **Add:**
@@ -648,6 +606,10 @@ nano ~/microjournal/new_word.sh
 # Generate filename: 2025.11.16-1430.wg
 filename=$(date +"%Y.%m.%d-%H%M.wg")
 
+# Color Scheme
+# black, red, green, yellow, blue, magenta, cyan, white
+setterm -background black -foreground yellow -store
+
 # Open WordGrinder with the new file inside /documents
 wordgrinder "~/microjournal/documents/$filename"
 ```
@@ -655,18 +617,9 @@ wordgrinder "~/microjournal/documents/$filename"
 **Make it executable:**
 
 ```bash
-chmod +x ~/microjournal/new_word.sh
+chmod +x ~/microjournal/draft_word.sh
 ```
 
-Now you can simply run:
-
-```
-~/microjournal/new_word.sh
-```
-
-…and instantly start writing.
-
----
 
 
 ### Script: Create a New Text File
@@ -676,7 +629,7 @@ This script automatically creates a new text file with a **timestamped filename*
 **Create the script:**
 
 ```bash
-nano ~/microjournal/new_txt.sh
+nano ~/microjournal/draft_txt.sh
 ```
 
 **Add:**
@@ -687,61 +640,19 @@ nano ~/microjournal/new_txt.sh
 # Generate filename: 2025.11.16-1430.txt
 filename=$(date +"%Y.%m.%d-%H%M.txt")
 
-# Open Micro with the new file inside /documents
-micro "~/microjournal/documents/$filename"
+# Color Scheme
+# black, red, green, yellow, blue, magenta, cyan, white
+setterm -background black -foreground yellow -store
+
+# Open nano with the new file inside /documents
+nano -S$ "~/microjournal/documents/$filename"
 ```
 
 **Make it executable:**
 
 ```bash
-chmod +x ~/microjournal/new_txt.sh
+chmod +x ~/microjournal/draft_txt.sh
 ```
-
-Now you can simply run:
-
-```
-~/microjournal/new_txt.sh
-```
-
-…and instantly start writing.
-
----
-
-### Script: Create a New Markdown Text File
-
-This script automatically creates a new Markdown file with a **timestamped filename** so your notes stay neatly organized.
-
-**Create the script:**
-
-```bash
-nano ~/microjournal/new_md.sh
-```
-
-**Add:**
-
-```bash
-#!/bin/bash
-
-# Generate filename: 2025.11.16-1430.md
-filename=$(date +"%Y.%m.%d-%H%M.md")
-
-# Open Micro with the new file inside /documents
-micro "~/microjournal/documents/$filename"
-```
-
-**Make it executable:**
-
-```bash
-chmod +x ~/microjournal/new_md.sh
-```
-
-Now you can simply run:
-
-```
-~/microjournal/new_md.sh
-```
-
-…and instantly start writing.
 
 ---
 
@@ -782,7 +693,7 @@ Now you can shut down your Micro Journal with:
 #### Mount USB Disk
 
 ```
-nano ~/microjournal/usb_disk_connect.sh
+nano ~/microjournal/drive_mount.sh
 ```
 
 ```bash
@@ -805,7 +716,7 @@ echo
 ```
 
 ```
-chmod +x ~/microjournal/usb_disk_connect.sh
+chmod +x ~/microjournal/drive_mount.sh
 ```
 
 ---
@@ -813,7 +724,7 @@ chmod +x ~/microjournal/usb_disk_connect.sh
 #### Safe USB Removal
 
 ```
-nano ~/microjournal/usb_disk_safe_remove.sh
+nano ~/microjournal/drive_unmount.sh
 ```
 
 ```bash
@@ -850,7 +761,7 @@ echo
 ```
 
 ```
-chmod +x ~/microjournal/usb_disk_safe_remove.sh
+chmod +x ~/microjournal/drive_unmount.sh
 ```
 
 
