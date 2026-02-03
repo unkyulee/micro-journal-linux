@@ -191,6 +191,7 @@ If you are using a standard monitor or a display that automatically detects orie
 video=HDMI-A-1:400x1280M@60,rotate=90  
 ```
 
+
 3. Example of a complete line:
 
 ```
@@ -837,6 +838,21 @@ mkdir -p ~/.config/openbox
 nano ~/.config/openbox/autostart
 ```
 
+```bash
+nano ~/.local/share/konsole/BigFont.profile
+
+#
+[General]
+Name=BigFont
+Parent=FALLBACK/
+Command=/bin/bash
+Default=true
+
+[Appearance]
+Font=Monospace,16,-1,5,50,0,0,0,0,0
+
+```
+
 Add:
 
 ```sh
@@ -851,7 +867,7 @@ export QT_IM_MODULE=ibus
 ibus-daemon -drx
 
 # Launch Konsole in fullscreen (no menu or tab bars)
-konsole --fullscreen --noclose --hide-menubar --hide-tabbar
+konsole --fullscreen --noclose --hide-menubar --hide-tabbar --profile BigFont
 ```
 
 Make it executable:
