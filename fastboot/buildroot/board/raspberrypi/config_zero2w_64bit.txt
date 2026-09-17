@@ -1,0 +1,32 @@
+start_file=start.elf
+fixup_file=fixup.dat
+
+kernel=Image
+
+# Enable 64-bit support
+arm_64bit=1
+
+# GPU memory
+gpu_mem_256=100
+gpu_mem_512=100
+gpu_mem_1024=100
+
+# Serial console on GPIO14/15
+enable_uart=1
+dtoverlay=miniuart-bt
+
+disable_overscan=1
+
+# Force HDMI output and ignore the panel's EDID
+hdmi_force_hotplug=1
+hdmi_ignore_edid=0xa5000080
+
+# Custom mode 1280x400 @ 60Hz (CVT reduced blanking)
+hdmi_group=2
+hdmi_mode=87
+hdmi_timings=400 0 100 10 140 1280 10 20 20 2 0 0 0 60 0 43000000 3
+display_rotate=3
+
+# HDMI signalling
+hdmi_drive=2
+config_hdmi_boost=7
