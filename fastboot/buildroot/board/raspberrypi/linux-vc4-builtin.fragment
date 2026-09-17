@@ -1,0 +1,11 @@
+# Build the VC4/HDMI display driver directly into the kernel instead of
+# as a loadable module, so the display attaches during kernel boot
+# (deterministic) rather than whenever modprobe/udev happens to load it.
+#
+# DRM_VC4 hard-depends on SND && SND_SOC, so those must be builtin too;
+# everything else it needs (DRM_KMS_HELPER, DRM_GEM_DMA_HELPER, etc.) is
+# pulled in automatically via "select" during olddefconfig.
+CONFIG_DRM=y
+CONFIG_DRM_VC4=y
+CONFIG_SND=y
+CONFIG_SND_SOC=y

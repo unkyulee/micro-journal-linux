@@ -30,3 +30,6 @@ display_rotate=3
 # HDMI signalling
 hdmi_drive=2
 config_hdmi_boost=7
+
+disable_splash=1
+boot_delay=0
