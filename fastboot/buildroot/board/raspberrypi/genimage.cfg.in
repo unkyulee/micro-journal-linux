@@ -20,6 +20,11 @@ image sdcard.img {
 
 	partition rootfs {
 		partition-type = 0x83
-		image = "rootfs.ext4"
+		image = "rootfs.squashfs"
+	}
+
+	partition data {
+		partition-type = 0x83
+		image = "data.f2fs"
 	}
 }

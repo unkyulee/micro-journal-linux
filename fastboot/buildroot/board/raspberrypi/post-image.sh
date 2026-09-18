@@ -24,6 +24,13 @@ if [ ! -e "${GENIMAGE_CFG}" ]; then
 		> "${GENIMAGE_CFG}"
 fi
 
+# Build the writable /data partition: a blank F2FS filesystem, separate from
+# the read-only squashfs rootfs. Sized generously for an SD card; adjust if needed.
+DATA_SIZE=64M
+rm -f "${BINARIES_DIR}/data.f2fs"
+truncate -s "${DATA_SIZE}" "${BINARIES_DIR}/data.f2fs"
+"${HOST_DIR}/sbin/mkfs.f2fs" -f -l data "${BINARIES_DIR}/data.f2fs"
+
 # Pass an empty rootpath. genimage makes a full copy of the given rootpath to
 # ${GENIMAGE_TMP}/root so passing TARGET_DIR would be a waste of time and disk
 # space. We don't rely on genimage to build the rootfs image, just to insert a

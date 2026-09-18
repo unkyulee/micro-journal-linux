@@ -1,0 +1,5 @@
+# squashfs is used as the root filesystem, so it must be built directly
+# into the kernel rather than as a loadable module - a module can't be
+# loaded from a filesystem that hasn't been mounted yet, and this build
+# has no initramfs to load it beforehand.
+CONFIG_SQUASHFS=y
