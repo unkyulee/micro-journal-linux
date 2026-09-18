@@ -1,0 +1,64 @@
+#!/bin/sh
+# Interactive WiFi setup: scan for SSIDs, pick one, enter a password, connect.
+
+IFACE=wlan0
+CTRL=/var/run/wpa_supplicant
+
+echo "Scanning for WiFi networks on $IFACE..."
+wpa_cli -i "$IFACE" -p "$CTRL" scan >/dev/null
+sleep 3
+
+RESULTS=$(wpa_cli -i "$IFACE" -p "$CTRL" scan_results | tail -n +2)
+if [ -z "$RESULTS" ]; then
+	echo "No networks found. Try again in a few seconds."
+	exit 1
+fi
+
+echo
+echo "Available networks:"
+n=0
+echo "$RESULTS" | while IFS="$(printf '\t')" read -r bssid freq signal flags ssid; do
+	n=$((n + 1))
+	printf '%2d) %-32s signal=%s %s\n' "$n" "$ssid" "$signal" "$flags"
+done
+
+echo
+printf 'Select network number: '
+read -r choice
+
+ssid=$(echo "$RESULTS" | sed -n "${choice}p" | cut -f5)
+if [ -z "$ssid" ]; then
+	echo "Invalid selection."
+	exit 1
+fi
+
+echo "Selected: $ssid"
+printf 'Password (leave blank for an open network): '
+stty -echo
+read -r psk
+stty echo
+echo
+
+id=$(wpa_cli -i "$IFACE" -p "$CTRL" add_network)
+wpa_cli -i "$IFACE" -p "$CTRL" set_network "$id" ssid "\"$ssid\"" >/dev/null
+if [ -n "$psk" ]; then
+	wpa_cli -i "$IFACE" -p "$CTRL" set_network "$id" psk "\"$psk\"" >/dev/null
+else
+	wpa_cli -i "$IFACE" -p "$CTRL" set_network "$id" key_mgmt NONE >/dev/null
+fi
+wpa_cli -i "$IFACE" -p "$CTRL" enable_network "$id" >/dev/null
+wpa_cli -i "$IFACE" -p "$CTRL" save_config >/dev/null
+sync
+sync
+
+echo "Connecting..."
+sleep 5
+wpa_cli -i "$IFACE" -p "$CTRL" status | grep -E '^wpa_state|^ssid'
+
+echo "Requesting DHCP lease..."
+if udhcpc -i "$IFACE"; then
+	echo "Syncing clock..."
+	ntpd -q -n -p pool.ntp.org >/dev/null 2>&1
+fi
+
+echo "Done."

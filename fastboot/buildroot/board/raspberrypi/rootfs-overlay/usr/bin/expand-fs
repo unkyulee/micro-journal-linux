@@ -1,0 +1,46 @@
+#!/bin/sh
+# Grow /data to fill the rest of the SD card. Safe to run more than once -
+# it just reports there's nothing to do if /data already uses all available
+# space.
+
+DISK=/dev/mmcblk0
+PART=${DISK}p3
+MNT=/data
+
+DISK_SECTORS=$(cat /sys/block/mmcblk0/size 2>/dev/null)
+PART_START=$(cat /sys/class/block/mmcblk0p3/start 2>/dev/null)
+PART_SECTORS=$(cat /sys/class/block/mmcblk0p3/size 2>/dev/null)
+
+if [ -z "$DISK_SECTORS" ] || [ -z "$PART_START" ] || [ -z "$PART_SECTORS" ]; then
+	echo "expand-fs: could not read partition geometry"
+	exit 1
+fi
+
+WANT_SECTORS=$((DISK_SECTORS - PART_START))
+
+if [ "$PART_SECTORS" -ge "$WANT_SECTORS" ]; then
+	echo "expand-fs: /data is already using all available space"
+	exit 0
+fi
+
+echo "expand-fs: growing $PART from $PART_SECTORS to $WANT_SECTORS sectors"
+
+umount "$MNT" 2>/dev/null
+
+if ! echo ", +" | sfdisk -N 3 --no-reread "$DISK"; then
+	echo "expand-fs: sfdisk failed"
+	mount "$MNT" 2>/dev/null
+	exit 1
+fi
+
+blockdev --rereadpt "$DISK" 2>/dev/null
+
+if ! resize.f2fs "$PART"; then
+	echo "expand-fs: resize.f2fs failed (partition table was already grown)"
+	mount "$MNT" 2>/dev/null
+	exit 1
+fi
+
+mount "$MNT" || { echo "expand-fs: remount of $MNT failed"; exit 1; }
+
+echo "expand-fs: done"

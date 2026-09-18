@@ -1,0 +1,56 @@
+#!/bin/sh
+
+IFACE=wlan0
+DAEMON=/usr/sbin/wpa_supplicant
+CONF=/data/wpa_supplicant.conf
+LOG=/var/log/wpa_supplicant.log
+
+start() {
+	printf 'Starting wpa_supplicant: '
+
+	if [ ! -f "$CONF" ]; then
+		cat > "$CONF" <<'WPACONF'
+ctrl_interface=/var/run/wpa_supplicant
+ctrl_interface_group=0
+update_config=1
+WPACONF
+	fi
+
+	modprobe brcmfmac 2>/dev/null
+
+	i=0
+	while [ ! -e /sys/class/net/$IFACE ] && [ $i -lt 10 ]; do
+		sleep 1
+		i=$((i + 1))
+	done
+	if [ ! -e /sys/class/net/$IFACE ]; then
+		echo "FAIL ($IFACE never appeared, check dmesg)"
+		return 1
+	fi
+
+	ip link set $IFACE up 2>/dev/null
+	$DAEMON -B -i $IFACE -c $CONF -D nl80211 -f $LOG
+	echo 'OK'
+
+	# If $CONF has a saved network, give association a few seconds then
+	# get a lease; bounded tries so this doesn't hang forever when no
+	# network has been configured yet.
+	sleep 8
+	if udhcpc -i $IFACE -n -t 5 >/dev/null 2>&1; then
+		# Board has no RTC, so the clock is wrong until a network is up -
+		# sync it now that we actually have connectivity.
+		ntpd -q -n -p pool.ntp.org >/dev/null 2>&1
+	fi
+}
+
+stop() {
+	printf 'Stopping wpa_supplicant: '
+	killall wpa_supplicant >/dev/null 2>&1
+	echo 'OK'
+}
+
+case "$1" in
+	start|stop) "$1" ;;
+	restart|reload) stop; start ;;
+	*) echo "Usage: $0 {start|stop|restart}"; exit 1 ;;
+esac
